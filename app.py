@@ -82,15 +82,11 @@ animal_to_fact = {
 def animal_facts():
     """Show a form to choose an animal and receive facts."""
 
-    # TODO: Collect the form data and save as variables
     animal = request.args.get('animal')
     if animal == "mantis":
         animal = 'mantis shrimp'
     context = {
-        # TODO: Enter your context variables here for:
-        # - the list of all animals (get from animal_to_fact)
         'animal_list':animal_to_fact,
-        # - the chosen animal fact (may be None if the user hasn't filled out the form yet)
         'animal':animal
     }
     return render_template('animal_facts.html', **context)
@@ -140,32 +136,20 @@ def image_filter():
 
     if request.method == 'POST':
         
-        # TODO: Get the user's chosen filter type (whichever one they chose in the form) and save
-        # as a variable
         filter_type = request.form.get('filter_type')
-        
-        # Get the image file submitted by the user
         image = request.files.get('users_image')
-
-        # TODO: call `save_image()` on the image & the user's chosen filter type, save the returned
-        # value as the new file path
         file_path = save_image(image,filter_type)
-        # TODO: Call `apply_filter()` on the file path & filter type
         apply_filter(file_path,filter_type)
         image_url = f'/static/images/{image.filename}'
 
         context = {
-            # TODO: Add context variables here for:
-            # - The full list of filter types
             'filter_list':filter_types,
-            # - The image URL
             "image_url":image_url
         }
         return render_template('image_filter.html', **context)
 
     else: # if it's a GET request
         context = {
-            # TODO: Add context variable here for the full list of filter types
             'filter_list':filter_types
         }
         return render_template('image_filter.html', **context)
@@ -183,20 +167,15 @@ pp = PrettyPrinter(indent=4)
 def gif_search():
     """Show a form to search for GIFs and show resulting GIFs from Tenor API."""
     if request.method == 'POST':
-        # TODO: Get the search query & number of GIFs requested by the user, store each as a 
-        # variable
+        
         search_query = request.form.get('search_query')
         quantity = request.form.get('quantity')
 
         response = requests.get(
             TENOR_URL,
             {
-                # TODO: Add in key-value pairs for:
-                # - 'q': the search query
                 'q':search_query,
-                # - 'key': the API key (defined above)
                 'key':API_KEY,
-                # - 'limit': the number of GIFs requested
                 'limit':quantity
             })
 
@@ -205,10 +184,6 @@ def gif_search():
         context = {
             'gifs': gifs
         }
-
-        # Uncomment me to see the result JSON!
-        #pp.pprint(gifs)
-
         return render_template('gif_search.html', **context)
     else:
         return render_template('gif_search.html')

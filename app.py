@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template
 from PIL import Image, ImageFilter
 from pprint import PrettyPrinter
+from dotenv import load_dotenv
 import json
 import os
 import random
 import requests
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -159,7 +161,7 @@ def image_filter():
 # GIF SEARCH ROUTE
 ################################################################################
 
-API_KEY = 'LIVDSRZULELA'
+API_KEY = os.getenv("API_KEY")
 TENOR_URL = 'https://api.tenor.com/v1/search'
 pp = PrettyPrinter(indent=4)
 
